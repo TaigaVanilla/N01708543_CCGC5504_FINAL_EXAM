@@ -4,15 +4,13 @@
 # Image configuration
 image:
   repository: taigavanilla/nginx-gitops
-  tag: "0"
+  tag: "4"
   pullPolicy: IfNotPresent
-
 # Application configuration
 app:
   name: nginx-gitops
   port: 80
   targetPort: 80
-
 # Deployment configuration
 deployment:
   replicas: 2
@@ -23,13 +21,11 @@ deployment:
     requests:
       cpu: 250m
       memory: 256Mi
-
 # Service configuration
 service:
   type: ClusterIP
   port: 80
   targetPort: 80
-
 # Ingress configuration (optional)
 ingress:
   enabled: false
@@ -41,33 +37,24 @@ ingress:
         - path: /
           pathType: Prefix
   tls: []
-
 # Pod annotations
 podAnnotations: {}
-
 # Pod labels
 podLabels: {}
-
 # Node selector
 nodeSelector: {}
-
 # Tolerations
 tolerations: []
-
 # Affinity
 affinity: {}
-
 # Security context
 securityContext: {}
-
 # Container security context
 containerSecurityContext: {}
-
 # Service account
 serviceAccount:
   create: true
   name: ""
-
 # RBAC
 rbac:
   create: false
