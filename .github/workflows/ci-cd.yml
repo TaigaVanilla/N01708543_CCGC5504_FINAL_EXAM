@@ -35,7 +35,7 @@ jobs:
     - name: Build and push Docker image
       uses: docker/build-push-action@v5
       with:
-        context: ./app
+        context: .
         push: true
         tags: ${{ env.REGISTRY }}/${{ secrets.DOCKERHUB_USERNAME }}/nginx-gitops:${{ env.IMAGE_TAG }}
         cache-from: type=gha
