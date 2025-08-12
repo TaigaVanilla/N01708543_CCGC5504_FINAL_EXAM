@@ -1,0 +1,102 @@
+# Grafana Helm Chart Values
+# Deploy with: helm install grafana grafana/grafana -f monitoring/grafana-values.yaml
+
+grafana:
+  # Admin user configuration
+  adminUser: admin
+  adminPassword: admin123
+  
+  # Service configuration
+  service:
+    type: NodePort
+    port: 80
+    targetPort: 3000
+  
+  # Ingress configuration (optional)
+  ingress:
+    enabled: false
+    className: "nginx"
+    annotations: {}
+    hosts:
+      - host: grafana.local
+        paths:
+          - path: /
+            pathType: Prefix
+  
+  # Persistence
+  persistence:
+    enabled: true
+    size: 10Gi
+    storageClassName: ""
+  
+  # Resources
+  resources:
+    limits:
+      cpu: 1000m
+      memory: 1Gi
+    requests:
+      cpu: 250m
+      memory: 256Mi
+  
+  # Sidecar for dashboards
+  sidecar:
+    dashboards:
+      enabled: true
+      label: grafana_dashboard
+      searchNamespace: ALL
+  
+  # Sidecar for datasources
+  sidecar:
+    datasources:
+      enabled: true
+      label: grafana_datasource
+      searchNamespace: ALL
+  
+  # Default datasource (Prometheus)
+  datasources:
+    datasources.yaml:
+      apiVersion: 1
+      datasources:
+        - name: Prometheus
+          type: prometheus
+          url: http://prometheus-server.monitoring.svc.cluster.local:9090
+          access: proxy
+          isDefault: true
+          editable: true
+  
+  # Default dashboards
+  dashboards:
+    default:
+      nginx-overview:
+        gnetId: 11199
+        revision: 1
+        datasource: Prometheus
+      kubernetes-cluster:
+        gnetId: 7249
+        revision: 1
+        datasource: Prometheus
+      nginx-ingress:
+        gnetId: 9614
+        revision: 1
+        datasource: Prometheus
+  
+  # Dashboard providers
+  dashboardProviders:
+    dashboardproviders.yaml:
+      apiVersion: 1
+      providers:
+        - name: 'default'
+          orgId: 1
+          folder: ''
+          type: file
+          disableDeletion: false
+          updateIntervalSeconds: 10
+          allowUiUpdates: true
+          options:
+            path: /var/lib/grafana/dashboards/default
+  
+  # Custom dashboards
+  dashboardsConfigMaps:
+    - name: nginx-custom-dashboard
+      configMapName: nginx-custom-dashboard
+      folder: "Custom"
