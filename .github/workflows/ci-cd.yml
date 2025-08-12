@@ -45,7 +45,7 @@ jobs:
       if: github.ref == 'refs/heads/main'
       run: |
         # Update the values.yaml file
-        cd helm
+        cd helm-chart
         yq eval ".image.tag = \"${{ env.IMAGE_TAG }}\"" -i values.yaml
 
     - name: Commit and push changes
