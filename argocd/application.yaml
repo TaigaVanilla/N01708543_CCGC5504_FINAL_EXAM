@@ -43,15 +43,3 @@ spec:
         factor: 2
         maxDuration: 3m
   
-  # Health check configuration
-  health:
-    status: Healthy
-  
-  # Resource limits
-  resources:
-    limits:
-      cpu: 500m
-      memory: 512Mi
-    requests:
-      cpu: 250m
-      memory: 256Mi
